@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📋 ClipSync"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cross-device clipboard sync"
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="40dp" />
+
+        <!-- Room ID -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Room ID"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:layout_marginBottom="6dp" />
+
+        <EditText
+            android:id="@+id/editRoomId"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/input_bg"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/text_primary"
+            android:hint="e.g. my-room-123"
+            android:hintTextColor="@color/text_hint"
+            android:inputType="text"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Local Server -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LAN Server (ws://)"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:layout_marginBottom="6dp" />
+
+        <EditText
+            android:id="@+id/editLocalServer"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/input_bg"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/text_primary"
+            android:hint="ws://192.168.1.x:3000"
+            android:hintTextColor="@color/text_hint"
+            android:inputType="textUri"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Cloud Server -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cloud Server (wss://)"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:layout_marginBottom="6dp" />
+
+        <EditText
+            android:id="@+id/editCloudServer"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/input_bg"
+            android:paddingHorizontal="16dp"
+            android:textColor="@color/text_primary"
+            android:hint="wss://your-app.onrender.com"
+            android:hintTextColor="@color/text_hint"
+            android:inputType="textUri"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Toggle Button -->
+        <Button
+            android:id="@+id/btnToggle"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Start Sync"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/accent"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Status -->
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stopped"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <!-- Note -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Note: On Android 10+ the app must be in the foreground to read clipboard."
+            android:textColor="@color/text_hint"
+            android:textSize="11sp"
+            android:layout_marginTop="32dp"
+            android:gravity="center" />
+
+    </LinearLayout>
+</ScrollView>
