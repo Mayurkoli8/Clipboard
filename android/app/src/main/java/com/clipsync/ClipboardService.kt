@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ClipboardService : Service() {
-
+    const val ACTION_CLIP_FROM_ACCESSIBILITY = "com.clipsync.CLIP_FROM_ACCESSIBILITY"
     companion object {
         private const val TAG        = "ClipSync"
         private const val CHANNEL_ID = "clipsync_channel"
@@ -39,6 +39,8 @@ class ClipboardService : Service() {
 
         val DEVICE_ID: String = UUID.randomUUID().toString()
     }
+
+    
 
     private var roomId      = Config.ROOM_ID
     private var localServer = Config.LOCAL_SERVER
@@ -70,6 +72,9 @@ class ClipboardService : Service() {
             .connectTimeout(10, TimeUnit.SECONDS)
             .build()
         createNotificationChannel()
+        // Receive clipboard from AccessibilityService
+val filter = android.content.IntentFilter(ACTION_CLIP_FROM_ACCESSIBILITY)
+registerReceiver(accessibilityReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -113,6 +118,7 @@ class ClipboardService : Service() {
         ws?.close(1000, "Service stopped")
         scope.cancel()
         super.onDestroy()
+        unregisterReceiver(accessibilityReceiver)
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -283,4 +289,15 @@ class ClipboardService : Service() {
         (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
             .notify(NOTIF_ID, buildNotification(status))
     }
+
+    private val accessibilityReceiver = object : android.content.BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        val content  = intent?.getStringExtra(EXTRA_CLIP_CONTENT)  ?: return
+        val dataType = intent.getStringExtra(EXTRA_CLIP_DATATYPE) ?: "text"
+        val h = content.hashCode().toString()
+        if (h == lastSentHash || h == lastReceivedHash) return
+        lastSentHash = h
+        scope.launch { sendClipboard(dataType, content) }
+    }
+}
 }

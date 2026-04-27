@@ -37,9 +37,9 @@ except ImportError:
 # ─────────────────────────────────────────────
 #  DEFAULT CONFIG  (user can edit in the GUI)
 # ─────────────────────────────────────────────
-DEFAULT_ROOM_ID      = "my-room-123"
-DEFAULT_LOCAL_SERVER = "ws://192.168.1.100:3000"
-DEFAULT_CLOUD_SERVER = "wss://your-app.onrender.com"
+DEFAULT_ROOM_ID      = "10.242.207.154"
+DEFAULT_LOCAL_SERVER = "ws://10.242.207.154"
+DEFAULT_CLOUD_SERVER = "wss://clipboard-gj00.onrender.com"
 # ─────────────────────────────────────────────
 
 DEVICE_ID     = str(uuid.uuid4())
