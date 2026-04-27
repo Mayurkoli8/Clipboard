@@ -48,7 +48,7 @@
             android:paddingHorizontal="16dp"
             android:textColor="@color/text_primary"
             android:hint="e.g. my-room-123"
-            android:hintTextColor="@color/text_hint"
+            app:hintTextColor="@color/text_hint"
             android:inputType="text"
             android:layout_marginBottom="20dp" />
 
@@ -69,7 +69,7 @@
             android:paddingHorizontal="16dp"
             android:textColor="@color/text_primary"
             android:hint="ws://192.168.1.x:3000"
-            android:hintTextColor="@color/text_hint"
+            app:hintTextColor="@color/text_hint"
             android:inputType="textUri"
             android:layout_marginBottom="20dp" />
 
@@ -90,7 +90,7 @@
             android:paddingHorizontal="16dp"
             android:textColor="@color/text_primary"
             android:hint="wss://your-app.onrender.com"
-            android:hintTextColor="@color/text_hint"
+            app:hintTextColor="@color/text_hint"
             android:inputType="textUri"
             android:layout_marginBottom="32dp" />
 
