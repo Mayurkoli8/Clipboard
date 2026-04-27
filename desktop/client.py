@@ -21,8 +21,8 @@ import websocket
 # ─────────────────────────────────────────────
 #  CONFIG  (edit these three lines)
 # ─────────────────────────────────────────────
-ROOM_ID       = "my-room-123"
-LOCAL_SERVER  = "ws://192.168.1.100:3000"   # LAN IP of the machine running server
+ROOM_ID       = "10.242.207.154"
+LOCAL_SERVER  = "ws://10.242.207.154"   # LAN IP of the machine running server
 CLOUD_SERVER  = "wss://your-app.onrender.com"  # your deployed cloud URL
 # ─────────────────────────────────────────────
 
