@@ -158,8 +158,9 @@ class ClipboardService : Service() {
                 scope.launch { handleIncoming(text) }
             }
 
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) =
+            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
                 webSocket.close(1000, null)
+            }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
                 isConnected = false
