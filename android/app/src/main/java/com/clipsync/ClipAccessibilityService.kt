@@ -25,11 +25,10 @@ class ClipAccessibilityService : AccessibilityService() {
         lastHash = h
 
         // Broadcast to ClipboardService which holds the WebSocket
-        val intent = Intent(ClipboardService.ACTION_CLIP_FROM_ACCESSIBILITY).apply {
-            setPackage(packageName)
-            putExtra(ClipboardService.EXTRA_CLIP_CONTENT,  text)
-            putExtra(ClipboardService.EXTRA_CLIP_DATATYPE, "text")
-        }
+        val intent = Intent(ClipboardService.ACTION_CLIP_FROM_ACCESSIBILITY)
+        intent.setPackage(packageName)
+        intent.putExtra(ClipboardService.EXTRA_CLIP_CONTENT, text)
+        intent.putExtra(ClipboardService.EXTRA_CLIP_DATATYPE, "text")
         sendBroadcast(intent)
     }
 
