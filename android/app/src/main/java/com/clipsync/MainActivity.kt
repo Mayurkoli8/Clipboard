@@ -1,6 +1,9 @@
 package com.clipsync
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -21,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Pre-fill defaults from Config
         binding.editRoomId.setText(Config.ROOM_ID)
         binding.editLocalServer.setText(Config.LOCAL_SERVER)
         binding.editCloudServer.setText(Config.CLOUD_SERVER)
@@ -29,6 +31,42 @@ class MainActivity : AppCompatActivity() {
         binding.btnToggle.setOnClickListener {
             if (serviceRunning) stopSyncService() else startSyncService()
         }
+
+        // Handle text shared from other apps (Share → ClipSync)
+        if (intent?.action == Intent.ACTION_SEND && intent.type == "text/plain") {
+            val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
+            if (!sharedText.isNullOrEmpty()) {
+                // Copy to local clipboard + sync
+                val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                cm.setPrimaryClip(ClipData.newPlainText("clipsync", sharedText))
+                // Auto-start service and send
+                if (!serviceRunning) startSyncService()
+                sendTextViaService(sharedText)
+                Toast.makeText(this, "Syncing shared text…", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // When user opens app (e.g. after copying on phone), send current clipboard
+        if (serviceRunning) {
+            val cm   = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = cm.primaryClip ?: return
+            val text = clip.getItemAt(0)?.coerceToText(this)?.toString() ?: return
+            if (text.isNotEmpty()) {
+                sendTextViaService(text)
+            }
+        }
+    }
+
+    private fun sendTextViaService(text: String) {
+        val intent = Intent(this, ClipboardService::class.java).apply {
+            action = ClipboardService.ACTION_SEND_CLIP
+            putExtra(ClipboardService.EXTRA_CLIP_CONTENT,  text)
+            putExtra(ClipboardService.EXTRA_CLIP_DATATYPE, "text")
+        }
+        startService(intent)
     }
 
     private fun startSyncService() {
@@ -41,14 +79,11 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        // Request notification permission on Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    100
+                    this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 100
                 )
                 return
             }
