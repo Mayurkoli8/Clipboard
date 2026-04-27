@@ -23,8 +23,8 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 class ClipboardService : Service() {
-    const val ACTION_CLIP_FROM_ACCESSIBILITY = "com.clipsync.CLIP_FROM_ACCESSIBILITY"
     companion object {
+        const val ACTION_CLIP_FROM_ACCESSIBILITY = "com.clipsync.CLIP_FROM_ACCESSIBILITY"
         private const val TAG        = "ClipSync"
         private const val CHANNEL_ID = "clipsync_channel"
         private const val NOTIF_ID   = 1
